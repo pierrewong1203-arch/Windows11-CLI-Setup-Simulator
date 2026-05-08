@@ -5,6 +5,9 @@ import os #for clear cmd
 import random #for random item, like random delay
 
 #value area
+
+timer = 0
+
 boot_timer = 5
 boot_key_pressed = False
 
@@ -22,6 +25,34 @@ sku = ["Windows 11 Home","Windows 11 Home Single Language","Windows 11 Pro","Win
 
 install_time = 0
 
+def cls(): #simple clean output
+    os.system('cls')
+
+def yes_no_question(yn_question="Next", custom_whole_question=False):
+    if custom_whole_question == False:
+        print(f"{yn_question}? (Y/N)")
+    else:
+        print(yn_question)
+    print("N will exit whole setup.")
+    while True:
+        key = msvcrt.getch().upper()
+        if key == b'Y':
+            break
+        elif key == b'N':
+            exit()
+
+def enter_agree():
+    while True:
+        if msvcrt.getch() == b'\r':
+            break
+
+#warning
+print("This is a similator.")
+print("This will not change any item in your computer.")
+time.sleep(3)
+yes_no_question("Press Y To Continue", True)
+cls()
+
 if True: #First screen: boot from cd or dvd (.iso)
     print("Press any key to boot from CD or DVD", end="" , flush=True)
     while boot_timer >= 0:
@@ -32,23 +63,24 @@ if True: #First screen: boot from cd or dvd (.iso)
             break
         else:
             boot_timer -= 1
-    #print("") #Stop printing at same line --replaced by next line
-    os.system('cls')
+    cls()
 
 if boot_key_pressed == True: #Main setup
+
+    #Setup exe
 
     if True: #Select language setting
         print("Select language setting")
         print("Language to install:      English")
         print("Time and currency format: Earth")
-        choice = input("Next?").upper()
-        os.system('cls')
+        yes_no_question()
+        cls()
 
     if True: #Select keyboard setting
         print("Select keyboard setting")
         print("Keyboard of input method: English")
-        choice = input("Next?").upper()
-        os.system('cls')
+        yes_no_question()
+        cls()
 
     if True: #Select setup option
         while True:
@@ -58,20 +90,20 @@ if boot_key_pressed == True: #Main setup
             print("                B. Repair my PC")
             install_choice = input("A or B").upper()
             if install_choice == "A":
+                cls()
                 break
             elif install_choice == "B":
                 print("Repair my PC is not supported")
                 time.sleep(1)
-                os.system('cls')
+                cls()
             else:
                 print("Please enter A or B")
                 time.sleep(1)
-                os.system('cls')
+                cls()
 
     if True: #Agree Del items
         print("I agree everything will be deleted including files, apps, and setting")
-        choice = input("Do you agree? (Y/N)").upper()
-        os.system('cls')
+        yes_no_question("Do you agree")
     
     if True: #Product Key
         print("Product Key")
@@ -81,21 +113,20 @@ if boot_key_pressed == True: #Main setup
         print("Enter product key")
         choice = input()
         while True:
-            if choice == "":
-                #press "Enter" / "Leave Blank"
-                os.system('cls')
+            if choice == "": #press "Enter" / "Leave Blank"
+                cls()
                 break
-            else:
-                #wrong Key
+            else: #wrong key
                 print("This is not a valid key")
                 time.sleep(3)
-                os.system('cls')
+                cls()
                 print("Product Key")
                 print("The product key should be with the box the DVD came in or on your email receipt.")
                 print("It looks similar to this: XXXXX-XXXXX-XXXXX-XXXXX-XXXXX")
                 print("Press Enter for no product key")
                 print("Enter product key")
                 choice = input()
+        cls()
 
     if True: #Choose ver. & spam trash info
         while True:
@@ -124,17 +155,23 @@ if boot_key_pressed == True: #Main setup
             try:
                 sku_choose_number = int(sku_choose_number_str)
                 sku_choose_number -= 1
-                sku_choose_sure = input(f"Are you sure you want to install {sku[sku_choose_number]} ? (Y/N)").upper()
-                if sku_choose_sure == "Y":
+                print(f"Are you sure you want to install {sku[sku_choose_number]} ? (Y/N)").upper()
+                while True:
+                    sku_choose_sure = msvcrt.getch().upper()
+                    if sku_choose_sure == b'Y':
+                        break
+                    if sku_choose_sure == b'N':
+                        break
+                if sku_choose_sure == b'Y':
                     sku_choose_type = sku[sku_choose_number]
                     sku_choose_yet = True
                     break
                 else:
-                    os.system('cls')
+                    cls()
             except ValueError:
                 print("Please Input a No.")
                 time.sleep(1)
-                os.system('cls')
+                cls()
 
     if True: #Install
         while True:
@@ -145,7 +182,7 @@ if boot_key_pressed == True: #Main setup
             print("Your PC will restart several times. This might take a while.")
             print(f"{install_time}% complete")
             time.sleep(random.uniform(0.2, 5.0))
-            os.system('cls')
+            cls()
             if install_time >= 100:
                 break
         print("Installing Windows 11")
@@ -153,13 +190,41 @@ if boot_key_pressed == True: #Main setup
         print("Your PC will restart in a few moments")
         time.sleep(random.randint(1,5))
       
+    if True: #Cointry or Region
+        print("Is this the right country or region?")
+        print("")
+        print("Earth")
+        choice = input("Yes")
+        cls()
 
-    if True: #OOBE
-        print("Work In Prograss, WIP")
-        #oobe, later
+    #oobe
+
+    if True: #Keyboard
+        print("Is this the right keyboard layout or input method?")
+        print("If you also use another keyboard layout, you cann add that next")
+        print("US")
+        choice = input("Yes")
+        cls()
+
+    if True: #2nd keyboard
+        print("Want to add a second keyboard layout?")
+        print("Press enter to Skip, Type 'Add' to add layout.")
+        choice = input()
+        cls()
+        if choice == 'Add':
+            timer = 4
+            while timer >=0:
+                timer -= 1
+                print("What language do you want to use for your second keyboard layout?")
+                print("Not yet supported by this python script")
+                print(f"Auto skip in {timer} second(s).")
+                cls()
+
+    if True:
+        print("4.12 only till here, later still in dev, or I should say 'The other part not born yet. :)' ")
 
 else: #Fake PXE Boot
-    os.system('cls')
+    cls()
     print("Start PXE over IPv4...")
     time.sleep(1)
     print("  Media test failure, check cable")
@@ -170,5 +235,5 @@ else: #Fake PXE Boot
     input()
     exit()
 
-#v4.10.2
+#v4.12
 #Coder: Pierre
