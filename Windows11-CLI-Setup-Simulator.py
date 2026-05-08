@@ -20,7 +20,7 @@ sku_choose_sure = "N"
 sku_choose_type = "" #home or pro or edu or...... (sku type)
 sku = ["Windows 11 Home","Windows 11 Home Single Language","Windows 11 Pro","Windows 11 Pro for Workstations","Windows 11 Education","Windows 11 Pro Education","Windows 11 Enterprise","Windows 11 IoT Enterprise","Windows 11 Enterprise multi-session","Windows 11 Enterprise LTSC 2024","Windows 11 IoT Enterprise LTSC 2024","Windows 11 IoT Enterprise Subscription LTSC 2024","Windows Server 2025 Standard Core","Windows Server 2025 Standard (Desktop Experience)","Windows Server 2025 Datacenter Core","Windows Server 2025 Datacenter (Desktop Experience)"]
 
-install_time = 10.0
+install_time = 0
 
 if True: #First screen: boot from cd or dvd (.iso)
     print("Press any key to boot from CD or DVD", end="" , flush=True)
@@ -137,23 +137,25 @@ if boot_key_pressed == True: #Main setup
                 os.system('cls')
 
     if True: #Install
-        while install_time > 0:
-            print(f"Installing {sku_choose_type}")
-            time.sleep(random.uniform(0.1, 1.0))
+        while True:
+            install_time += random.randint(1,5)
+            if install_time > 100:
+                install_time = 100
+            print("Installing Windows 11")
+            print("Your PC will restart several times. This might take a while.")
+            print(f"{install_time}% complete")
+            time.sleep(random.uniform(0.2, 5.0))
             os.system('cls')
-            print(f"Installing {sku_choose_type}.")
-            time.sleep(random.uniform(0.1, 1.0))
-            os.system('cls')
-            print(f"Installing {sku_choose_type}..")
-            time.sleep(random.uniform(0.1, 1.0))
-            os.system('cls')
-            print(f"Installing {sku_choose_type}...")
-            time.sleep(random.uniform(0.1, 1.0))
-            install_time -= random.uniform(0.5, 1.0)
-            os.system('cls')
+            if install_time >= 100:
+                break
+        print("Installing Windows 11")
+        print("Your PC will restart several times. This might take a while.")
+        print("Your PC will restart in a few moments")
+        time.sleep(random.randint(1,5))
+      
 
     if True: #OOBE
-        print("in dev, not yet")
+        print("Work In Prograss, WIP")
         #oobe, later
 
 else: #Fake PXE Boot
@@ -168,5 +170,5 @@ else: #Fake PXE Boot
     input()
     exit()
 
-#v4.9
+#v4.10.2
 #Coder: Pierre
